@@ -1,6 +1,6 @@
 import React, { useReducer } from 'react';
 import AuthContext from './authContext';
-import AuthReducer from './authReducer';
+import authReducer from './authReducer';
 import {
   REGEISTER_SUCCESS,
   REGISTER_FAIL,
@@ -13,7 +13,7 @@ import {
 
 const AuthState = props => {
   const initialState = {
-    token: localStorage.getitem('token'),
+    token: localStorage.getItem('token'),
     isAuthenticated: null,
     loading: true,
     error: null
