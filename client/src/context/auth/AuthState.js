@@ -5,10 +5,11 @@ import authReducer from './authReducer';
 import setAuthToken from '../../utils/setAuthToken';
 
 import {
-  REGEISTER_SUCCESS,
+  REGISTER_SUCCESS,
   REGISTER_FAIL,
   USER_LOADED,
   AUTH_ERROR,
+  LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
   CLEAR_ERRORS
@@ -55,7 +56,7 @@ const AuthState = props => {
       const response = await axios.post('/api/users', formData, config);
 
       dispatch({
-        type: REGEISTER_SUCCESS,
+        type: REGISTER_SUCCESS,
         payload: response.data
       });
 
@@ -69,10 +70,32 @@ const AuthState = props => {
   };
 
   // Login User
-  const login = () => console.log('login');
+  const login = async formData => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+
+    try {
+      const res = await axios.post('/api/auth', formData, config);
+
+      dispatch({
+        type: LOGIN_SUCCESS,
+        payload: res.data
+      });
+
+      loadUser();
+    } catch (error) {
+      dispatch({
+        type: LOGIN_FAIL,
+        payload: error.response.data.msg
+      });
+    }
+  };
 
   // Logout
-  const logout = () => console.log('logout');
+  const logout = () => dispatch({ type: LOGOUT });
 
   // Clear Errors
   const clearErrors = () => dispatch({ type: CLEAR_ERRORS });

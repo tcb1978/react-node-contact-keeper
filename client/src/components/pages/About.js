@@ -4,7 +4,7 @@ const About = () => {
   return (
     <div>
       <h1>About this App</h1>
-      <p classname="my-1">This is a fullstack app for keeping contacts</p>
+      <p className="my-1">This is a fullstack app for keeping contacts</p>
       <p className="bg-dark p">
         <strong>Version: </strong>1.0.0
       </p>
