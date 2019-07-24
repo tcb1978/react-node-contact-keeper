@@ -1,21 +1,15 @@
 import React, { useReducer } from 'react';
+import axios from 'axios';
 import AuthContext from './authContext';
 import authReducer from './authReducer';
 
 import {
-  // eslint-disable-next-line
   REGEISTER_SUCCESS,
-  // eslint-disable-next-line
   REGISTER_FAIL,
-  // eslint-disable-next-line
   USER_LOADED,
-  // eslint-disable-next-line
   AUTH_ERROR,
-  // eslint-disable-next-line
   LOGIN_FAIL,
-  // eslint-disable-next-line
   LOGOUT,
-  // eslint-disable-next-line
   CLEAR_ERRORS
 } from '../types';
 
@@ -26,18 +20,42 @@ const AuthState = props => {
     loading: true,
     error: null
   };
-  // eslint-disable-next-line
   const [state, dispatch] = useReducer(authReducer, initialState);
 
   // Load User
+  const loadUser = () => console.log('loaduser');
 
   // Register User
+  const register = async formData => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+
+    try {
+      const response = await axios.post('/api/users', formData, config);
+
+      dispatch({
+        type: REGEISTER_SUCCESS,
+        payload: response.data
+      });
+    } catch (error) {
+      dispatch({
+        type: REGISTER_FAIL,
+        payload: error.response.data.msg
+      });
+    }
+  };
 
   // Login User
+  const login = () => console.log('login');
 
   // Logout
+  const logout = () => console.log('logout');
 
   // Clear Errors
+  const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
 
   return (
     <AuthContext.Provider
@@ -46,7 +64,12 @@ const AuthState = props => {
         isAuthenticated: state.isAuthenticated,
         loading: state.loading,
         user: state.user,
-        error: state.error
+        error: state.error,
+        register,
+        loadUser,
+        login,
+        logout,
+        clearErrors
       }}
     >
       {props.children}

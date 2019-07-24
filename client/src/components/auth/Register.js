@@ -1,10 +1,20 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import AlertContext from '../../context/alert/alertContext';
+import AuthContext from '../../context/auth/authContext';
 
 const Register = () => {
   const alertContext = useContext(AlertContext);
+  const authContext = useContext(AuthContext);
 
   const { setAlert } = alertContext;
+  const { register, error, clearErrors } = authContext;
+
+  useEffect(() => {
+    if (error === 'User already exists') {
+      setAlert(error, 'danger');
+      clearErrors();
+    }
+  }, [clearErrors, error, setAlert]);
 
   const [user, setUser] = useState({
     name: '',
@@ -28,7 +38,11 @@ const Register = () => {
     } else if (password !== password2) {
       setAlert('Passwords do not match', 'danger');
     } else {
-      console.log('Register submit');
+      register({
+        name,
+        email,
+        password
+      });
     }
   };
 
@@ -44,13 +58,13 @@ const Register = () => {
         </div>
         <div className="form-group">
           <label htmlFor="email">Email Address</label>
-          <input type="text" email="name" value={email} onChange={onChange} required />
+          <input type="text" name="email" value={email} onChange={onChange} required />
         </div>
         <div className="form-group">
           <label htmlFor="password">Password</label>
           <input
             type="text"
-            email="name"
+            name="password"
             value={password}
             onChange={onChange}
             required
@@ -59,7 +73,7 @@ const Register = () => {
         </div>
         <div className="form-group">
           <label htmlFor="password2">Confirm Password</label>
-          <input type="text" email="name" value={password2} onChange={onChange} required />
+          <input type="text" name="password2" value={password2} onChange={onChange} required />
         </div>
         <input type="submit" value="register" className="btn btn-primary btn-block" minLength="6" />
       </form>
