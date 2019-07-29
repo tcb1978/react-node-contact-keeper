@@ -28,11 +28,7 @@ const ContactForm = () => {
 
   const { name, email, phone, type } = contact;
 
-  const onChange = e =>
-    setContact({
-      ...contact,
-      [e.target.name]: e.target.value
-    });
+  const onChange = e => setContact({ ...contact, [e.target.name]: e.target.value });
 
   const onSubmit = e => {
     e.preventDefault();
@@ -41,13 +37,7 @@ const ContactForm = () => {
     } else {
       updateContact(contact);
     }
-
-    setContact({
-      name: '',
-      email: '',
-      phone: '',
-      type: 'personal'
-    });
+    clearAll();
   };
 
   const clearAll = () => {
@@ -57,30 +47,26 @@ const ContactForm = () => {
   return (
     <form onSubmit={onSubmit}>
       <h2 className="text-primary">{current ? 'Edit Contact' : 'Add Contact'}</h2>
-      <input type="text" name="name" placeholder="Name" value={name} onChange={onChange} />
-      <input type="text" name="email" placeholder="Email" value={email} onChange={onChange} />
-      <input type="text" name="phone" placeholder="Phone" value={phone} onChange={onChange} />
+      <input type="text" placeholder="Name" name="name" value={name} onChange={onChange} />
+      <input type="email" placeholder="Email" name="email" value={email} onChange={onChange} />
+      <input type="text" placeholder="Phone" name="phone" value={phone} onChange={onChange} />
       <h5>Contact Type</h5>
-      <div>
-        <input
-          type="radio"
-          name="type"
-          value="personal"
-          checked={type === 'personal'}
-          onChange={onChange}
-        />
-        <label> Personal</label>
-      </div>
-      <div>
-        <input
-          type="radio"
-          name="type"
-          value="professional"
-          checked={type === 'professional'}
-          onChange={onChange}
-        />
-        <label> Professional</label>
-      </div>
+      <input
+        type="radio"
+        name="type"
+        value="personal"
+        checked={type === 'personal'}
+        onChange={onChange}
+      />{' '}
+      Personal{' '}
+      <input
+        type="radio"
+        name="type"
+        value="professional"
+        checked={type === 'professional'}
+        onChange={onChange}
+      />{' '}
+      Professional
       <div>
         <input
           type="submit"

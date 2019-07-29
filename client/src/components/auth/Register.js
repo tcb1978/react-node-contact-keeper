@@ -13,11 +13,13 @@ const Register = props => {
     if (isAuthenticated) {
       props.history.push('/');
     }
+
     if (error === 'User already exists') {
       setAlert(error, 'danger');
       clearErrors();
     }
-  }, [clearErrors, error, isAuthenticated, props.history, props.histroy, setAlert]);
+    // eslint-disable-next-line
+  }, [error, isAuthenticated, props.history]);
 
   const [user, setUser] = useState({
     name: '',
@@ -28,11 +30,7 @@ const Register = props => {
 
   const { name, email, password, password2 } = user;
 
-  const onChange = e =>
-    setUser({
-      ...user,
-      [e.target.name]: e.target.value
-    });
+  const onChange = e => setUser({ ...user, [e.target.name]: e.target.value });
 
   const onSubmit = e => {
     e.preventDefault();
@@ -61,12 +59,12 @@ const Register = props => {
         </div>
         <div className="form-group">
           <label htmlFor="email">Email Address</label>
-          <input type="text" name="email" value={email} onChange={onChange} required />
+          <input type="email" name="email" value={email} onChange={onChange} required />
         </div>
         <div className="form-group">
           <label htmlFor="password">Password</label>
           <input
-            type="text"
+            type="password"
             name="password"
             value={password}
             onChange={onChange}
@@ -76,9 +74,16 @@ const Register = props => {
         </div>
         <div className="form-group">
           <label htmlFor="password2">Confirm Password</label>
-          <input type="text" name="password2" value={password2} onChange={onChange} required />
+          <input
+            type="password"
+            name="password2"
+            value={password2}
+            onChange={onChange}
+            required
+            minLength="6"
+          />
         </div>
-        <input type="submit" value="register" className="btn btn-primary btn-block" minLength="6" />
+        <input type="submit" value="Register" className="btn btn-primary btn-block" />
       </form>
     </div>
   );
